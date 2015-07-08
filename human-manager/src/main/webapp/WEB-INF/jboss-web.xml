@@ -1,0 +1,3 @@
+<jboss-web>
+  <context-root>humanmanager</context-root>
+</jboss-web>

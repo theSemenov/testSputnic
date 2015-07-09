@@ -3,7 +3,7 @@
 Приложение можно запустить напрямую или задеплоить на сервер.
 
 напрямую: Запустить фаил src/main/webapp/index.html
-адеплоить на сервер: при запущенном сервере wildfly mvn wildfly:deploy 
+задеплоить на сервер: при запущенном сервере wildfly mvn wildfly:deploy 
 				 		
 Адрес
 	http://localhost:8080/humancli

@@ -102,22 +102,32 @@ function registerActionListner() {
 		}
 		jQuery.ajax({
 			url : url,
-			cache : false,
+			cache : true,
 			type : 'POST',
-			crossDomain : true,
+			crossDomain : false,
 			Accept : 'application/json',
 			contentType : 'application/json',
+			/*beforeSend: function (request)
+	        {
+	                request.setRequestHeader("X-Requested-With", 'XMLHttpRequest');
+	        },*/
 			headers : {
 				'Access-Control-Request-Headers' : 'x-requested-with'
 			},
 			data : data,
-			success : function(data) {
+			success : function(ret) {
 				grid.trigger('reloadGrid');
 				bAction.removeClass( 'pure-button-primary' ).addClass('button-success');
 				jQuery('#form').hide('slow');
+				jQuery('#mes').html('Ok');
+				jQuery('#mes').css('color', 'rgb(28, 184, 65)');
+				jQuery('#mes').show('fast');
 			},
-			error : function() {
+			error : function(ret) {
 				bAction.removeClass( 'pure-button-primary button-success' ).addClass('button-error');
+				jQuery('#mes').html(ret.responseText);
+				jQuery('#mes').css('color', 'rgb(202, 60, 60)');
+				jQuery('#mes').show('slow');
 			}
 		});
 	})
@@ -144,8 +154,11 @@ function registerAddListner() {
 	bAdd.on('click', function() {
 		action = 'save';
 		bAction.removeClass('button-success button-error').addClass('pure-button-primary');
+		jQuery('#mes').html("");
+		jQuery('#mes').hide('show');
 		jQuery('#form').hide('slow');
 		jQuery('#actionName').html('Создать человека');
+		jQuery('#actionName').css('color', 'rgb(28, 184, 65)');
 		jQuery('#actionBtn').html('сохранить');
 		jQuery('#fnameField').val('');
 		jQuery('#snameField').val('');
@@ -160,7 +173,10 @@ function registerUpdateListner() {
 		action = 'update';
 		bAction.removeClass('button-success button-error').addClass('pure-button-primary');
 		jQuery('#form').hide('slow');
+		jQuery('#mes').html("");
+		jQuery('#mes').hide('show');
 		jQuery('#actionName').html('Редактировать человека');
+		jQuery('#actionName').css('color', 'rgb(223, 117, 20)');
 		jQuery('#actionBtn').html('обновить');
 		var rowid = grid.getGridParam('selrow');
 		if(rowid != null) {

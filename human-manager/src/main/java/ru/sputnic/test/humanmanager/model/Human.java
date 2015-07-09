@@ -3,6 +3,9 @@ package ru.sputnic.test.humanmanager.model;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 
@@ -13,9 +16,20 @@ public class Human implements Serializable {
 	 */
 	private static final long serialVersionUID = -5093219456013384288L;
 	private Long id;
+	
+	@NotNull(message="Имя не должно быть null")
+	@Size(min=1, message="Длина имени должна быть больше {min} символа")
 	private String fname;
+	
+	@NotNull(message="Фамилия не должно быть null")
+	@Size(min=1, message="Длина фамилии должна быть больше {min} символа")
 	private String sname;
+	
+	@NotNull(message="Отчество не должно быть null")
+	@Size(min=1, message="Длина отчества должна быть больше {min} символа")
 	private String mname;
+	
+	@NotNull(message="Дата рождния не должно быть null")
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd.MM.yyyy", timezone="ru")
 	private Date birthDate;
 	

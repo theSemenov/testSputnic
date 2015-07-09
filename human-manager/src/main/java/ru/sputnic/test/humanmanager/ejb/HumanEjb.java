@@ -4,8 +4,10 @@ package ru.sputnic.test.humanmanager.ejb;
 import java.util.List;
 
 import javax.ejb.Singleton;
-
 import javax.inject.Inject;
+import javax.validation.Valid;
+import javax.validation.ValidationException;
+import javax.validation.Validator;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -25,6 +27,10 @@ import ru.sputnic.test.humanmanager.service.ResourceNotFoundException;
 public class HumanEjb {
 	@Inject
 	private IHumanService service;
+	
+	@Inject
+    private Validator validator;
+	
 	private static final String UTF8 = ";charset=utf-8";
 	
 	public HumanEjb() {}
@@ -42,6 +48,9 @@ public class HumanEjb {
 	@Produces(MediaType.APPLICATION_JSON + UTF8)
 	public Response saveHuman(Human human) {
 		try {
+			if(validator.validate(human).size() != 0){
+				return Response.status(403).entity("Не прошло валидацию ").build();
+			}
 			service.saveHuman(human);
 			return Response.ok().build();
 		} catch (HumanServiceException e) {
@@ -55,6 +64,9 @@ public class HumanEjb {
 	@Produces(MediaType.APPLICATION_JSON + UTF8)
 	public Response updateHuman(Human human) {
 		try {
+			if(validator.validate(human).size() != 0){
+				return Response.status(403).entity("Не прошло валидацию").build();
+			}
 			service.updateHuman(human);
 			return Response.ok().build();
 		} catch (HumanServiceException e) {
@@ -72,6 +84,6 @@ public class HumanEjb {
 			return Response.ok().build();
 		} catch (ResourceNotFoundException e) {
 			return Response.status(403).entity("Пользователь с id " + id + " отсутствует").build();
-		}
+		} 
 	}
 }
